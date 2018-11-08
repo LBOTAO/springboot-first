@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>帖子列表</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrapv3.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery-2.2.4.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrapv3.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-paginator.min.js}"></script>
+    <script type="text/javascript">
+        function findReplyDetailByInvid(invid) {
+            location.href="/replyDetail/transfer?invid="+invid;
+        }
+        
+        function delcfm(id) {
+            var url = "/Invitation/delInvitation?id=" + id;
+            $('#url').val(url);//给会话中的隐藏属性URL赋值
+            $('#delcfmModel').modal();
+        }
+        function urlSubmit() {
+            var url = $("#url").val();//获取会话中的隐藏属性URL
+            window.location.href = url;
+        }
+
+    </script>
+</head>
+<body>
+<table width="70%" border="1" align="center">
+    <h1 style="height: 50px;line-height5:0px;border: 1px;text-align: center">帖子列表</h1>
+    <div style="text-align: center;">
+        帖子标题:<input id="title" type="text"><input type="button" value="搜索" onclick="javascript:load(0)">
+    </div>
+    <thead>
+    <tr>
+        <th>标题</th>
+        <th>内容摘要</th>
+        <th>作者</th>
+        <th>发布时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="list-context">
+    </tbody>
+</table>
+<div id="Paginator" style="text-align: center">
+    <ul id="pageLimit"></ul>
+</div>
+<!-- 信息删除确认 -->
+<div class="modal fade" id="delcfmModel">
+    <div class="modal-dialog">
+        <div class="modal-content message_align">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <p>确认删除该条发帖及相关回复？</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="url"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+    var element = $("#pageLimit");
+    load(0);
+    function load(pageNum) {
+        var title=$("#title").val();
+        $.ajax({
+            url: "/Invitation/findAll",
+            type: "post",
+            data: {"pageNum": pageNum,"title":title},
+            success: function (data) {
+                $("#list-context").html('');
+                $.each(data.list, function (i, dom) {
+                    $("#list-context").append("<tr><td>" + dom.title + "</td><td>" + dom.summary + "</td><td>" + dom.author + "</td><td>" + dom.createdate + "</td><td><a class='btn btn-default' href='javascript:findReplyDetailByInvid("+dom.id+")' role='button'>查看回复</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default' href='javascript:delcfm(" + dom.id + ");' role='button'>删除</a></td></tr>");
+                });
+                var options = {
+                    currentPage: data.pageNum,   //设置当前页
+                    totalPages: data.pages,     //总页数
+                    size: "small",    //控件显示的大小
+                    bootstrapMajorVersion: 3,
+                    alignment: "center",       //控件的对齐方式
+                    numberOfPages: data.page,   //设置控件显示的页码数
+                    itemTexts: function (type, page, current) {
+                        switch (type) {
+                            case "first":
+                                return "首页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+                            case "last":
+                                return "末页";
+                            case "page":
+                                return page;
+                        }
+                    },
+                    onPageClicked: function (event, originalEvent, type, pageNum) {//分页按钮点击事件
+                        $.ajax({//根据page去后台加载数据
+                            url: "/Invitation/findAll",
+                            type: "POST",
+                            dataType: "json",
+                            data: {"pageNum": pageNum,"title":title},
+                            success: function (data) {
+                                //后台返回的需要显示的信息列表
+                                //根据自己需求再进行前端渲染
+                                $("#list-context").html('');
+                                $.each(data.list, function (i, dom) {
+                                    var url = "/Invitation/delInvitation?id=" + dom.id;
+                                    $("#list-context").append("<tr><td>" + dom.title + "</td><td>" + dom.summary + "</td><td>" + dom.author + "</td><td>" + dom.createdate + "</td><td><a class='btn btn-default' href='javascript:findReplyDetailByInvid("+dom.id+")' role='button'>查看回复</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class='btn btn-default' href='javascript:delcfm(" + dom.id + ");' role='button'>删除</a></td></tr>");
+                                });
+                            }
+                        })
+                    }
+                };
+                element.bootstrapPaginator(options);
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

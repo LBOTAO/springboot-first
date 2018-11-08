@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>thymeleaf</title>
+</head>
+<body>
+<h1>呵呵哒</h1>
+<div th:utext="${hello}">这是div的显示信息</div>
+<hr/>
+<h4 th:text="${stu}" th:each="stu:${hehe}"></h4>
+<hr/>
+<h4 th:each="stu:${hehe}">[[${stu}]]</h4>
+
+</body>
+</html>

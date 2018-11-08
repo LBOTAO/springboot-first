@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回复列表</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrapv3.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery-2.2.4.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrapv3.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-paginator.min.js}"></script>
+</head>
+<body>
+<table width="70%" border="1" align="center">
+    <h1 style="height: 50px;line-height5:0px;border: 1px;text-align: center">回复列表</h1>
+    <a href="/addreply.html" style="padding-left:500px;color: red;">添加回复</a>
+    <a href="/index.html" style="padding-left:30px;color: red;">返回帖子列表</a>
+    <thead>
+    <tr>
+        <th>回复内容</th>
+        <th>回复昵称</th>
+        <th>发布时间</th>
+    </tr>
+    </thead>
+    <tbody id="list-context">
+    </tbody>
+</table>
+<div id="Paginator" style="text-align: center">
+    <ul id="pageLimit"></ul>
+</div>
+
+<!--<input id="invid" type="hidden" th:value="${#httpServletRequest.getAttribute('id')}"/>-->
+<input id="invid" type="hidden" th:value="${#httpSession.getAttribute('id')}"/>
+<script type="text/javascript">
+    var element = $("#pageLimit");
+    var id = $("#invid").val();
+    load(0, id);
+    function load(pageNum, invid) {
+        $.ajax({
+            url: "/replyDetail/findReplyDetailAll?invid=" + invid,
+            type: "post",
+            data: {"pageNum": pageNum, "invid": invid},
+            success: function (data) {
+                $("#list-context").html('');
+                $.each(data.list, function (i, dom) {
+                    $("#list-context").append("<tr><td>" + dom.content + "</td><td>" + dom.author + "</td><td>" + dom.createdate + "</td></tr>");
+                });
+                var options = {
+                    currentPage: data.pageNum,   //设置当前页
+                    totalPages: data.pages,     //总页数
+                    size: "small",    //控件显示的大小
+                    bootstrapMajorVersion: 3,
+                    alignment: "center",       //控件的对齐方式
+                    numberOfPages: data.page,   //设置控件显示的页码数
+                    itemTexts: function (type, page, current) {
+                        switch (type) {
+                            case "first":
+                                return "首页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+                            case "last":
+                                return "末页";
+                            case "page":
+                                return page;
+                        }
+                    },
+                    onPageClicked: function (event, originalEvent, type, pageNum) {//分页按钮点击事件
+                        $.ajax({//根据page去后台加载数据
+                            url: "/replyDetail/findReplyDetailAll?invid=" + invid,
+                            type: "post",
+                            data: {"pageNum": pageNum, "invid": invid},
+                            success: function (data) {
+                                $("#list-context").html('');
+                                $.each(data.list, function (i, dom) {
+                                    $("#list-context").append("<tr><td>" + dom.content + "</td><td>" + dom.author + "</td><td>" + dom.createdate + "</td></tr>");
+                                });
+                            }
+                        })
+                    }
+                };
+                element.bootstrapPaginator(options);
+            }
+        })
+    }
+</script>
+<h1></h1>
+</body>
+</html>

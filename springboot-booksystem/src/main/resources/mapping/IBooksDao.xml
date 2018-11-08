@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.happy.dao.IBooksDao">
+    <select id="findAll" resultType="Books">
+        select * from books
+        <where>
+            <choose>
+                <when test="multiQuery=='书名'">
+                    or bookname like '%' #{bookname} '%'
+                </when>
+                <when test="multiQuery=='作者'">
+                    or bookAuthor like '%' #{bookAuthor} '%'
+                </when>
+                <when test="multiQuery=='出版社'">
+                    or bookPublish like '%' #{bookPublish} '%'
+                </when>
+            </choose>
+        </where>
+        ORDER BY createDate DESC
+    </select>
+
+    <insert id="addBook" parameterType="Books">
+        INSERT INTO `booksystem`.`books` (`bookName`, `bookAuthor`, `bookPublish`, `bookPage`, `bookPrice`, `createDate`) VALUES (#{bookName}, #{bookAuthor}, #{bookPublish}, #{bookPage}, #{bookPrice},NOW());
+    </insert>
+</mapper>

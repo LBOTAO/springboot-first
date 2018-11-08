@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.happy.dao.IUserInfoDao">
+    <select id="isLogin" resultType="UserInfo">
+        select userName from smbms.smbms_user WHERE userCode=#{userCode} and userPassword=#{userPassword}
+    </select>
+
+    <select id="findAll" resultType="UserInfo">
+        select smbms_user.*,YEAR(NOW())-YEAR(birthday) as age from smbms.smbms_user
+        <if test="likeUserName!=null and conditionUserRole!=null">
+            where userName LIKE '%' #{likeUserName} '%' and userRole=#{conditionUserRole}
+        </if>
+    </select>
+
+    <delete id="delUserInfo">
+        DELETE from smbms.smbms_user WHERE id=#{id}
+    </delete>
+
+    <insert id="insertUserInfo">
+     insert into smbms.smbms_user(userCode, userName, userPassword, gender, birthday, phone, address, userRole) VALUES (#{userCode},#{userName},#{userPassword},#{gender},#{birthday},#{phone},#{address},#{userRole})
+    </insert>
+
+    <delete id="deleteList">
+        delete FROM userinfo where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

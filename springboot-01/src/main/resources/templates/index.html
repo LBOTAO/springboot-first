@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻管理</title>
+    <!--<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>-->
+    <script type="text/javascript" th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>-->
+</head>
+<style type="text/css">
+    #author{
+        margin-left: 300px;
+    }
+</style>
+<script type="text/javascript">
+   function myselect(){
+       //获取到用户选择的作者名
+      var author= $("#author").val();
+       $.ajax({
+           url:"/findByAuthor",
+           data:{"authorname":author},
+           type:"post",
+           success:function (data) {
+               //清空数据
+               $("#list-context").html('');
+               //追加数据
+               $.each(data,function (i, dom) {
+                   $("#list-context").append("<tr><td>"+dom.nid+"</td><td>"+dom.ntitle+"</td><td>"+dom.nauthor+"</td><td>"+dom.ncreatedate+"</td></tr>")
+               });
+               $("tr:odd").css("background","pink");
+           }
+       })
+   }
+    load();
+    function load() {
+        $.ajax({
+            url:"/findAll",
+            type:"post",
+            success:function (data) {
+                //清空数据
+                $("#list-context").html('');
+                //追加数据
+                $.each(data,function (i, dom) {
+                    $("#list-context").append("<tr><td>"+dom.nid+"</td><td>"+dom.ntitle+"</td><td>"+dom.nauthor+"</td><td>"+dom.ncreatedate+"</td></tr>")
+                });
+                $("tr:odd").css("background","pink");
+            }
+        })
+    }
+</script>
+<body>
+<table width="70%" border="1" align="center">
+    <caption><h1 style="height: 50px;line-height5:0px;border: 1px">News Manager System</h1></caption>
+    <select id="author" class="ourSelect">
+        <option value="0">不限</option>
+        <option value="新浪娱乐">新浪娱乐</option>
+        <option value="凤凰网娱乐">凤凰网娱乐</option>
+        <option value="泰国星探">泰国星探</option>
+    </select>
+    <input type="button" value="查找"onclick="myselect()"/>
+    <a href="/goaddPage">添加新闻信息</a>
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>标题</th>
+        <th>作者</th>
+        <th>发布日期</th>
+    </tr>
+    </thead>
+    <tbody id="list-context">
+    </tbody>
+</table>
+</body>
+</html>

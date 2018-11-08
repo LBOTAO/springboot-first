@@ -1,0 +1,8 @@
+2018年10月16日08:41:09
+
+1.WebMvcConfigurer
+
+2.LocaleResolver
+01.本身springboot对springmvc进行了自动配置   我们可以实现WebMvcConfigurer接口可以对springmvc进行扩展
+
+2.实现LocaleResolver接口  实现国际化  默认国际化语言的改变  是对请求头来进行区分的

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CustomBoot" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CustomMVC" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringBoot-CRUD" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smbms" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-01" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-ForumPostSystem" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-booksystem" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-jpa-02" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/java/com/happy/dao" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/java/com/happy/entity/Department.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/java/com/happy/entity/Employee.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/resources/static/asserts" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/resources/templates/404.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/resources/templates/dashboard.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/resources/templates/list.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/springboot-restfulcrud-03/src/main/resources/templates/login.html" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

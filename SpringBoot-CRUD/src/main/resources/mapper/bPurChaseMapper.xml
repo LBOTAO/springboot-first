@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java56.dao.BPurChaseDao"> 
+   <select id="findAll" resultType="bPurChase" parameterType="bPurChase">
+    SELECT * FROM t_b_purchase
+   </select>
+   <insert id="addBPurChase">
+    insert into t_b_purchase (goodsnumber,goodscount,price,status,suppliername,contactperson,persontel,goodsname,remark) 
+    VALUES (#{goodsNumber},#{goodsCount},#{price},1,#{supplierName},#{contactPerson},#{personTel},#{goodsName},#{remark})
+   </insert>
+   <delete id="deleteBPurChase" parameterType="String">
+      delete from t_b_purchase where id=#{id}
+   </delete>
+   <update id="updateBPurChase" parameterType="bPurChase">
+    update t_b_purchase 
+    <set>
+    <if test="goodsNumber != null">goodsnumber=#{goodsNumber},</if>
+    <if test="goodsCount != null">goodscount=#{goodsCount},</if>
+    <if test="price != null">price=#{price},</if>
+    <if test="status != null">status=#{status},</if>
+    <if test="supplierName != null">suppliername=#{supplierName},</if>
+    <if test="contactPerson != null">contactperson=#{contactPerson},</if>
+    <if test="personTel != null">persontel=#{personTel},</if>
+    <if test="goodsName != null">goodsname=#{goodsName},</if>
+    <if test="remark != null">remark=#{remark}</if>
+    </set>
+    where id=#{id}
+   </update>
+   <select id="findBPurChase" resultType="bPurChase" parameterType="String">
+    SELECT * FROM t_b_purchase where id=#{id}
+   </select>
+</mapper>

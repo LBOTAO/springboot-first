@@ -1,0 +1,10 @@
+spring:
+    thymeleaf:
+      prefix: classpath:/templates/
+      mode: HTML5
+      cache: false
+      encoding: gbk
+      suffix: .html
+    messages:
+      basename: i18n.login
+      encoding: GBK

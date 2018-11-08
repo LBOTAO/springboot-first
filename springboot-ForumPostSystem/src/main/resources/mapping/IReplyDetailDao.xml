@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.happy.dao.IReplyDetailDao">
+    <select id="findReplyDetailAll" resultType="ReplyDetail">
+        select * from reply_detail where invid=#{invid}
+    </select>
+
+    <insert id="insertReply">
+        insert into reply_detail(invid,content,author,createdate)VALUES(#{invid},#{content},#{author},NOW())
+    </insert>
+</mapper>
